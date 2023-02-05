@@ -9,6 +9,7 @@ class guess extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           // ignore: prefer_const_constructors
