@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'constants.dart';
 
 class GuessAppBar extends StatefulWidget {
@@ -15,6 +14,7 @@ class _GuessState extends State<GuessAppBar> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           // ignore: prefer_const_constructors
           title: Text("Guess Work"),
@@ -40,10 +40,50 @@ class _GuessState extends State<GuessAppBar> {
             ])),
           ),
         ),
-        body: Center(
-          child: Text(
-            str,
-          ),
+        body: Column(
+          children: [
+            Container(
+              // ignore: sort_child_properties_last
+              child: Center(
+                child: Text(
+                  "Random Number is Generated between ${randnumin1.toString()} and ${randnumin2.toString()} \n the Number is ${randnum.toString()} and you guessed $guessed",
+                ),
+              ),
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(color: Colors.grey, blurRadius: 5.0)
+                ],
+                color: Colors.white,
+              ),
+              margin: const EdgeInsets.all(15),
+            ),
+            Container(
+              // ignore: sort_child_properties_last
+              height: 100,
+              margin: const EdgeInsets.all(50),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: TextField(
+                      onChanged: (value) => guessed = value,
+                      // ignore: prefer_const_constructors
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintText: '\t\t\t\tGuess the Number',
+                      ),
+                    ),
+                  ),
+                  Container(
+                      padding: const EdgeInsets.all(20),
+                      child: const Icon(Icons.mail)),
+                ],
+              ),
+            ),
+          ],
         ),
         drawer: Drawer(
           child: Column(
