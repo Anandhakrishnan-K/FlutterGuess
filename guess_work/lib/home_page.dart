@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'constants.dart';
 
 class GuessAppBar extends StatefulWidget {
@@ -18,12 +19,11 @@ class _GuessState extends State<GuessAppBar> {
           // ignore: prefer_const_constructors
           title: Text("Guess Work"),
           centerTitle: true,
-          backgroundColor: primarycolor,
           // leading: IconButton(
           //   icon: const Icon(Icons.arrow_back),
           //   onPressed: () {},
           // ),
-          foregroundColor: appbarfontcolor,
+          foregroundColor: Colors.black,
           actions: [
             IconButton(
               icon: const Icon(Icons.more_vert),
@@ -40,15 +40,15 @@ class _GuessState extends State<GuessAppBar> {
             ])),
           ),
         ),
-        body: const Center(
+        body: Center(
           child: Text(
-            "This is the Main Page",
+            str,
           ),
         ),
         drawer: Drawer(
           child: Column(
-            children: const [
-              UserAccountsDrawerHeader(
+            children: [
+              const UserAccountsDrawerHeader(
                 accountName: Text("Anandhakrishnan"),
                 accountEmail: Text("kanandhakrishnan133@gmail.com"),
                 currentAccountPicture: CircleAvatar(
@@ -61,7 +61,50 @@ class _GuessState extends State<GuessAppBar> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight)),
               ),
-              ListTile(title: Text("Settings"), leading: Icon(Icons.settings)),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text("Settings"),
+                onTap: () {
+                  setState(() {
+                    scount += 1;
+                    str =
+                        ("Settings Button has been Pressed ${scount.toString()} time(s)");
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.help),
+                title: const Text("Help"),
+                onTap: () {
+                  setState(() {
+                    hcount += 1;
+                    str =
+                        ("Help Button has been Pressed ${hcount.toString()} time(s)");
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.warning_rounded),
+                title: const Text("About"),
+                onTap: () {
+                  setState(() {
+                    acount += 1;
+                    str =
+                        ("About Button has been Pressed ${acount.toString()} time(s)");
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.mail),
+                title: const Text("Contact Us"),
+                onTap: () {
+                  setState(() {
+                    ccount += 1;
+                    str =
+                        ("Contact Us Button has been Pressed ${ccount.toString()} time(s)");
+                  });
+                },
+              ),
             ],
           ),
         ),
