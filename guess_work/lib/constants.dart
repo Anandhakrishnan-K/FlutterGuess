@@ -1,3 +1,5 @@
+library config.globals;
+
 import 'package:flutter/material.dart';
 import 'functions.dart';
 
@@ -9,8 +11,11 @@ int scount = 0;
 int hcount = 0;
 int acount = 0;
 int ccount = 0;
-var ranlst = randgen();
-int randnum = ranlst.last;
-int randnumin1 = ranlst.first;
-int randnumin2 = randnumin1 + 20;
+var ranlst = [];
+int randnum = 0;
+int randnumin1 = 0;
+int randnumin2 = 0;
 final fieldText = TextEditingController();
+bool totheme = false;
+MyTheme currentTheme = MyTheme();
+String matchMsg = '';

@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'constants.dart';
@@ -13,10 +12,20 @@ class GuessAppBar extends StatefulWidget {
 }
 
 class _GuessState extends State<GuessAppBar> {
+  initstate() {
+    super.initState();
+    currentTheme.addListener(() {
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: currentTheme.currentTheme(),
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -33,8 +42,15 @@ class _GuessState extends State<GuessAppBar> {
           foregroundColor: Colors.black,
           actions: [
             IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: () {},
+              icon: totheme
+                  ? const Icon(Icons.brightness_4_rounded)
+                  : const Icon(Icons.brightness_4_outlined),
+              onPressed: () {
+                setState(() {
+                  totheme = !totheme;
+                  currentTheme.switchTheme();
+                });
+              },
             )
           ],
           toolbarHeight: 60,
@@ -58,47 +74,61 @@ class _GuessState extends State<GuessAppBar> {
                   // ignore: sort_child_properties_last
                   child: Center(
                     child: Text(
-                      "Random Number was Generated between ${randnumin1.toString()} and ${randnumin2.toString()}",
+                      "There is one Random Number Generated between ${randnumin1.toString()} and ${randnumin2.toString()}.\n\n Guess the Number ....",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  height: 200,
+                  height: 150,
+                  padding: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     border: Border.all(),
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
+                    color: Colors.transparent,
                   ),
-                  margin: const EdgeInsets.all(15),
                 ),
                 Container(
                   // ignore: sort_child_properties_last
-                  height: 70,
-                  margin: const EdgeInsets.only(left: 50, top: 15),
+                  height: 100,
+                  margin: const EdgeInsets.all(15),
                   child: Row(
                     children: [
-                      SizedBox(
-                        width: 150,
-                        height: 60,
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          onChanged: (value) => guessed = value,
-                          // ignore: prefer_const_constructors
-                          decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              //hintText: 'Guess the Number',
-                              labelText: 'Guess the Number',
-                              labelStyle: const TextStyle(fontSize: 15)),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          controller: fieldText,
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: SizedBox(
+                          width: 200,
+                          height: 70,
+                          child: TextField(
+                            maxLength: 2,
+                            textAlign: TextAlign.center,
+                            onChanged: (value) => guessed = value,
+                            // ignore: prefer_const_constructors
+                            decoration: InputDecoration(
+                                suffixIcon: const IconButton(
+                                    onPressed: clearText,
+                                    icon: Icon(Icons.cancel_outlined)),
+                                counterText: '',
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                //hintText: 'Guess the Number',
+                                labelText: 'Guess the Number',
+                                labelStyle: const TextStyle(fontSize: 15)),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            controller: fieldText,
+                          ),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(left: 30),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: SizedBox(
                           width: 100,
+                          height: 50,
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -106,22 +136,70 @@ class _GuessState extends State<GuessAppBar> {
                                   Colors.purpleAccent,
                                   Colors.redAccent
                                 ])),
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.black,
-                                ),
-                                onPressed: clearText,
-                                child: const Text(
-                                  'Clear',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      letterSpacing: 1.2,
-                                      fontWeight: FontWeight.bold),
-                                )),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  (int.parse(guessed) == randnum)
+                                      ? {
+                                          matchMsg =
+                                              "Congratulations !!! You Guessed it Correctly, Moving on to the next one.",
+                                          setRand()
+                                        }
+                                      : matchMsg =
+                                          "Oops !!! You made a wrong Guess. Try Again..";
+                                  clearText();
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.purpleAccent,
+                                  foregroundColor: Colors.black),
+                              child: const Text(
+                                'Next',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 16),
+                              ),
+                            ),
                           ),
                         ),
-                      )
+                      ),
                     ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  child: Center(
+                    child: SizedBox(
+                      width: 120,
+                      height: 50,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: const LinearGradient(colors: [
+                              Colors.purpleAccent,
+                              Colors.redAccent
+                            ])),
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.black,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                clearText();
+                                setRand();
+                                if (kDebugMode) {
+                                  print(randnum);
+                                }
+                              });
+                            },
+                            child: const Text(
+                              'Start ',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  letterSpacing: 1.2,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                      ),
+                    ),
                   ),
                 ),
               ],
