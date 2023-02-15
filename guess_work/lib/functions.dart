@@ -17,6 +17,10 @@ void setRand() {
   randnum = ranlst.last;
   randnumin1 = ranlst.first;
   randnumin2 = randnumin1 + 20;
+  maintext =
+      "There is one Random Number Generated between ${randnumin1.toString()} and ${randnumin2.toString()}.\n\n Guess the Number ....";
+  setclue1(randnum);
+  setclue2(randnum);
 }
 
 void clearText() {
@@ -34,4 +38,37 @@ class MyTheme with ChangeNotifier {
     isdark = !isdark;
     notifyListeners();
   }
+}
+
+void setclue1(int n) {
+  int n1 = n;
+  int tmp = 0;
+  while (n1 > 0) {
+    tmp = n1 % 10;
+    n1 = n1 ~/ 10;
+  }
+  clue1 = "\nThe Random Number generated starting with: ${tmp.toString()} ";
+}
+
+void setclue2(int n) {
+  var tlst = [];
+  for (int i = 2; i < n / 2; i++) {
+    if (n % i == 0) {
+      tlst.add(i);
+    }
+    if (tlst.isEmpty) {
+      clue2 = "\nAnd its a Prime Number";
+    } else {
+      clue2 = "\nAnd the Number is Multiples of ${tlst.join(',')}";
+    }
+  }
+  // var l=[];
+  // for (i in range(2,int(n/2))){
+  //     if(n%i)==0{
+  //         l.append(i)}}
+
+  // if(len(l)==0)
+  //     clue2 = "and its a prime Number and the Number starting with ${clue1.toString()};
+  // else
+  //     print("and the Number is a Multiples of: ",l);
 }
