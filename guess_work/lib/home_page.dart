@@ -158,20 +158,25 @@ class _GuessState extends State<GuessAppBar> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   setState(() {
-                                    if (int.parse(guessed) == randnum) {
+                                    try {
+                                      if (int.parse(guessed) == randnum) {
+                                        matchMsg =
+                                            "Congratulations !!! You Guessed it Correctly,\nClick next to move to the next one...";
+                                        msgcol = Colors.green;
+                                        ans = true;
+                                        score++;
+                                      } else {
+                                        matchMsg =
+                                            "Oops !!! You made a wrong Guess. Try Again..";
+                                        msgcol = Colors.red;
+                                        ans = false;
+                                        score = 0;
+                                      }
+                                      clearText();
+                                    } catch (e) {
                                       matchMsg =
-                                          "Congratulations !!! You Guessed it Correctly,\nClick next to move to the next one...";
-                                      msgcol = Colors.green;
-                                      ans = true;
-                                      score++;
-                                    } else {
-                                      matchMsg =
-                                          "Oops !!! You made a wrong Guess. Try Again..";
-                                      msgcol = Colors.red;
-                                      ans = false;
-                                      score = 0;
+                                          "Please Enter the Number to Proceed";
                                     }
-                                    clearText();
                                   });
                                 },
                                 style: ElevatedButton.styleFrom(

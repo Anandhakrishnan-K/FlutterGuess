@@ -7,7 +7,7 @@ const primarycolor = Color.fromRGBO(255, 255, 0, 1);
 const appbarfontcolor = Color.fromARGB(255, 0, 0, 0);
 String str =
     "1.Click Start to Begin\n2.Guess the Number and Enter the number in the Input Text Box\n3.Click Check to check the Answer\n4.Click Next to mve to the next one.";
-String guessed = "20";
+String guessed = '';
 var ranlst = [];
 int randnum = 0;
 int randnumin1 = 0;

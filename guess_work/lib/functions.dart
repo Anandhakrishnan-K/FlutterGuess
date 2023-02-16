@@ -62,13 +62,4 @@ void setclue2(int n) {
       clue2 = "\nAnd the Number is Multiples of ${tlst.join(',')}";
     }
   }
-  // var l=[];
-  // for (i in range(2,int(n/2))){
-  //     if(n%i)==0{
-  //         l.append(i)}}
-
-  // if(len(l)==0)
-  //     clue2 = "and its a prime Number and the Number starting with ${clue1.toString()};
-  // else
-  //     print("and the Number is a Multiples of: ",l);
 }
